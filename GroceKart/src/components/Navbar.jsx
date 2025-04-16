@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
 import {NavLink} from 'react-router-dom'
 import  {assets} from '../assets/assets.js'
-import useAppContext from "../context/AppContext.jsx"
+import { useAppContext } from "../context/AppContext.jsx"
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const [user , setUser , setShowUserLogin , navigate] =  useAppContext();
+  const { user , setUser , setShowUserLogin , navigate } =  useAppContext();
 
 
    const logout = async () => {
      setUser(null);
      navigate('/');
    }
-
-
 
 
   return (
@@ -44,9 +42,17 @@ function Navbar() {
             <button className="absolute -top-2 -right-3 text-xs text-white bg-primary-dull w-[18px] h-[18px] rounded-full">3</button>
         </div>
 
-        <button className="cursor-pointer px-8 py-2 bg-primary hover:bg-orange-400 transition text-white rounded-full">
+        { !user ? (<button onClick={() => setShowUserLogin(true)} className="cursor-pointer px-8 py-2 bg-primary hover:bg-orange-400 transition text-white rounded-full">
             Login
-        </button>
+        </button>) : (
+               <div>
+                 <img src={assets.profile_icon} className="w-10" alt=""/>
+                 <ul>
+                    <li>My Orders</li>
+                    <li>Logout</li>
+                 </ul>
+               </div>
+        )}
     </div>
 
     <button onClick={() => open ? setOpen(false) : setOpen(true)} aria-label="Menu" className="sm:hidden">
